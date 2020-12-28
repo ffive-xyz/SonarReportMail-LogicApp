@@ -32,4 +32,4 @@ else:
 
     # print(result)
 
-    print(*createHtmlCode(result), sep='\n')
+    print(*createHtmlCode(result))
