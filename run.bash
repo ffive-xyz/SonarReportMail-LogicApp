@@ -3,6 +3,7 @@
 pip3 install -r requirements.txt
 html=$(python3 program.py)
 echo "'$html'"
+echo "'$LOGICAPP_URL'"
 
 wget --no-check-certificate --quiet \
   --method POST \
