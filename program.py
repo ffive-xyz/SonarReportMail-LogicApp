@@ -15,7 +15,7 @@ sonarcloud_organization = os.getenv("sonarcloud_organization")
 sonarcloud_projects = os.getenv("sonarcloud_projects")
 LOGICAPP_URL = os.getenv("LOGICAPP_URL")
 
-if sonarcloud_organization == None or sonarcloud_projects == None or sonarcloud_token == None or sonarcloud_url == None or LOGICAPP_URL == None:
+if sonarcloud_organization == None or sonarcloud_projects == None or sonarcloud_token == None or sonarcloud_url == None:
     print("Invalid configuration")
 
 else:
@@ -38,6 +38,12 @@ else:
 
 
     html = ''.join(createHtmlCode(result,sonarcloud_url))
-    # print(html)
-    res = requests.post(LOGICAPP_URL,data=html,headers={"Content-Type":"text/plain"})
-    print(res.status_code)
+
+    shouldSendEmail = LOGICAPP_URL != None
+
+    if shouldSendEmail:
+        res = requests.post(LOGICAPP_URL,data=html,headers={"Content-Type":"text/plain"})
+        print(res.status_code)
+    else:
+        print(html)
+        print("LOGIC APP URL not specified. Email not triggered")
