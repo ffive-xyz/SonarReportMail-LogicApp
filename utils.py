@@ -1,4 +1,4 @@
-def createHtmlCode(data):
+def createHtmlCode(data,sonarcloud_url):
     lines = []
     lines.append(
         f'<table style="border:1px solid black; border-collapse:collapse;">')
@@ -7,8 +7,10 @@ def createHtmlCode(data):
 
     lines.append(
         f"<tr><th>Project</th><th>{'</th><th>'.join(metrices)}</th></tr>")
+
     for project in data:
-        line = f"<tr><td>{project['name']}</td>"
+        name = project['name']
+        line = f"<tr><td><a href='{sonarcloud_url}/dashboard?id={name}'>{name}</a></td>"
         for m in metrices:
             line += f"<td>{project['metrics'][m]}</td>"
         line += '</tr>'

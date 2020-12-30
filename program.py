@@ -1,3 +1,4 @@
+from sonarqube.utils.common import strip_trailing_slash
 from sonarqube import SonarCloudClient
 from dotenv import load_dotenv
 
@@ -18,6 +19,7 @@ if sonarcloud_organization == None or sonarcloud_projects == None or sonarcloud_
     print("Invalid configuration")
 
 else:
+    sonarcloud_url = strip_trailing_slash(sonarcloud_url)
     sonar = SonarCloudClient(sonarcloud_url, sonarcloud_token)
 
     result = []
@@ -33,6 +35,9 @@ else:
             result[-1]["metrics"][metric["metric"]] = metric["value"]
 
     # print(result)
-    html = ''.join(createHtmlCode(result))
+
+
+    html = ''.join(createHtmlCode(result,sonarcloud_url))
+    # print(html)
     res = requests.post(LOGICAPP_URL,data=html,headers={"Content-Type":"text/plain"})
     print(res.status_code)
