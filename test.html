@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        }
+
+        .card {
+            width: 100%;
+            border: lightgrey 1px solid;
+            padding: 10px 20px;
+        }
+
+        .name {
+            font-size: 25px;
+        }
+
+        .stats {
+            padding: 10px;
+        }
+
+        .stat {
+            padding: 10px;
+            padding-left: 20px;
+            border-right: lightgrey 1px solid;
+            text-align: center;
+        }
+
+        .stat:last-child {
+            border: unset;
+        }
+
+        td,
+        th {
+            padding-right: 30px;
+        }
+
+        td {
+            font-size: 25px;
+        }
+
+        th {
+            padding-top: 5px;
+            font-size: 13px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="name">assistant auth</div>
+        <table class="stats">
+            <tr class="stat">
+                <td>24</td>
+                <td>15</td>
+            </tr>
+            <tr class="stat">
+                <th>Bugs</th>
+                <th>Code Smells</th>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

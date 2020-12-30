@@ -37,7 +37,7 @@ else:
     # print(result)
 
 
-    html = ''.join(createHtmlCode(result,sonarcloud_url))
+    html = createHtmlCode(result,sonarcloud_url)
 
     shouldSendEmail = LOGICAPP_URL != None
 
