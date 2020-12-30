@@ -28,7 +28,7 @@ else:
             organization=sonarcloud_organization,
             component=project,
             fields="metrics,periods",
-            metricKeys="code_smells,bugs,vulnerabilities,ncloc,complexity,violations,security_hotspots,sqale_index,coverage,duplicated_lines_density,duplicated_blocks")
+            metricKeys="code_smells,bugs,vulnerabilities,ncloc,complexity,violations,security_hotspots,sqale_index,coverage,duplicated_lines_density")
 
         result.append({"name": project, "metrics": {}})
         for metric in component["component"]["measures"]:
