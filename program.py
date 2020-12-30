@@ -2,7 +2,7 @@ from sonarqube.utils.common import strip_trailing_slash
 from sonarqube import SonarCloudClient
 from dotenv import load_dotenv
 
-from utils import createHtmlCode
+from utils import createHtmlCode, getProjects
 
 import os
 import requests
@@ -23,12 +23,12 @@ else:
     sonar = SonarCloudClient(sonarcloud_url, sonarcloud_token)
 
     result = []
-    for project in sonarcloud_projects.split(','):
+    for project in getProjects(sonarcloud_projects):
         component = sonar.measures.get_component_with_specified_measures(
             organization=sonarcloud_organization,
             component=project,
             fields="metrics,periods",
-            metricKeys="code_smells,bugs,vulnerabilities,ncloc,complexity,violations,security_hotspots,sqale_index,coverage,tests,duplicated_lines_density,duplicated_blocks")
+            metricKeys="code_smells,bugs,vulnerabilities,ncloc,complexity,violations,security_hotspots,sqale_index,coverage,duplicated_lines_density,duplicated_blocks")
 
         result.append({"name": project, "metrics": {}})
         for metric in component["component"]["measures"]:
@@ -36,13 +36,13 @@ else:
 
     # print(result)
 
-
-    html = createHtmlCode(result,sonarcloud_url)
+    html = createHtmlCode(result, sonarcloud_url)
 
     shouldSendEmail = LOGICAPP_URL != None
 
     if shouldSendEmail:
-        res = requests.post(LOGICAPP_URL,data=html,headers={"Content-Type":"text/plain"})
+        res = requests.post(LOGICAPP_URL, data=html, headers={
+                            "Content-Type": "text/plain"})
         print(res.status_code)
     else:
         print(html)

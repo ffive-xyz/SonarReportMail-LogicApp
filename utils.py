@@ -38,13 +38,12 @@ def createHtmlCode(data, sonarcloud_url):
 
 
 def makeHumanHeaders(line):
-    line = line.replace(">coverage<", ">Coverage<")
+    line = line.replace(">coverage<", ">Test Coverage<")
     line = line.replace(">complexity<", ">Complexity<")
     line = line.replace(">complexity<", ">Complexity<")
     line = line.replace(">bugs<", ">Bugs<")
     line = line.replace(">code_smells<", ">Code Smells<")
     line = line.replace(">duplicated_lines_density<", ">Duplicated Lines<")
-    line = line.replace(">tests<", ">Unit Tests<")
     line = line.replace(">duplicated_blocks<", ">Duplicated Blocks<")
     line = line.replace(">ncloc<", ">#LOC<")
     line = line.replace(">violations<", ">Violations<")
@@ -69,3 +68,9 @@ def getEmailTemplate():
 
 def insertDataInTemplate(template, data):
     return template.replace("</body>", f'{data}</body>')
+
+def getProjects(rawString):
+    l = rawString.split(',')
+    for i in range(len(l)):
+        l[i] = l[i].strip()
+    return l
