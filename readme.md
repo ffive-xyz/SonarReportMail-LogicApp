@@ -6,6 +6,8 @@ _Note:_ This script requires logic app to function properly.
 
 ## How to use
 
+Execute `run.bash`
+
 To use this script you need to provide some environment variables either in `dotenv` file or set variables in environment
 
 ### .dotenv file sample
@@ -16,6 +18,21 @@ sonarcloud_token="YOUR TOKEN"
 sonarcloud_organization="ORGANIZATION_NAME"
 sonarcloud_projects="Comma separated project names"
 LOGICAPP_URL="Logic app post url"
+```
+
+### setting in pipeline
+
+**Azure pipelines**
+``` yaml
+steps:
+- script: ./run.bash
+  displayName: 'Command Line Script'
+  env:
+    sonarcloud_url: https://sonarcloud.io/
+    sonarcloud_organization: ORGANIZATION_NAME
+    sonarcloud_projects: Comma separated project names
+    sonarcloud_token: $(sonarcloud_token)
+    LOGICAPP_URL: "Logic app post url"
 ```
 
 ## Linking with Azure Logic App
