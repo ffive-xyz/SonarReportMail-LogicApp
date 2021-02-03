@@ -24,9 +24,16 @@ else:
 
     result = []
     for project in getProjects(sonarcloud_projects):
+        branch = None
+        if project.find(":") != -1:
+            print("project contains :")
+            branch = project.split(":")[1]
+            project = project.split(":")[0]
+            
         component = sonar.measures.get_component_with_specified_measures(
             organization=sonarcloud_organization,
             component=project,
+            branch=branch,
             fields="metrics,periods",
             metricKeys="code_smells,bugs,vulnerabilities,ncloc,complexity,violations,security_hotspots,sqale_index,coverage,duplicated_lines_density")
 
