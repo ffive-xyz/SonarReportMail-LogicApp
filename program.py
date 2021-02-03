@@ -14,6 +14,7 @@ sonarcloud_token = os.getenv("sonarcloud_token")
 sonarcloud_organization = os.getenv("sonarcloud_organization")
 sonarcloud_projects = os.getenv("sonarcloud_projects")
 LOGICAPP_URL = os.getenv("LOGICAPP_URL")
+metric_keys = os.getenv("metric_keys")
 
 if sonarcloud_organization == None or sonarcloud_projects == None or sonarcloud_token == None or sonarcloud_url == None:
     print("Invalid configuration")
@@ -26,7 +27,6 @@ else:
     for project in getProjects(sonarcloud_projects):
         branch = None
         if project.find(":") != -1:
-            print("project contains :")
             branch = project.split(":")[1]
             project = project.split(":")[0]
             
@@ -35,9 +35,9 @@ else:
             component=project,
             branch=branch,
             fields="metrics,periods",
-            metricKeys="code_smells,bugs,vulnerabilities,ncloc,complexity,violations,security_hotspots,sqale_index,coverage,duplicated_lines_density")
+            metricKeys=metric_keys)
 
-        result.append({"name": project, "metrics": {}})
+        result.append({"name": project, "metrics": {}, "branch": branch})
         for metric in component["component"]["measures"]:
             result[-1]["metrics"][metric["metric"]] = metric["value"]
 

@@ -1,37 +1,53 @@
+import urllib.parse
+
+
 def createHtmlCode(data, sonarcloud_url):
     lines = []
     metrices = list(data[0]['metrics'].keys())
 
     for project in data:
         projectName = project['name']
+        projectLines = []
 
-        lines += [f'<div class="card">']
+        displayProjectName = projectName
+        branch = project['branch']
+        if branch is not None:
+            displayProjectName = f"{projectName}:{branch}"
 
-        lines += [
-            f'<div class="name"><a href="{sonarcloud_url}/dashboard?id={projectName}">{projectName}</a></div>']
+        projectLines += [f'<div class="card">']
 
-        lines += ['''<table class="stats">
+        projectLines += [
+            f'<div class="name"><a href="{sonarcloud_url}/dashboard?id={projectName}">{displayProjectName}</a></div>']
+
+        projectLines += ['''<table class="stats">
                     <tr class="stat">
                     ''']
 
         line = ''
         for m in metrices:
             line += f"<td><a href='{sonarcloud_url}/component_measures?id={projectName}&metric={m}&view=list'>{project['metrics'][m]}</a></td>"
-        lines += [line]
+        projectLines += [line]
 
-        lines += ['</tr>']
-        lines += ['<tr class="stat">']
+        projectLines += ['</tr>']
+        projectLines += ['<tr class="stat">']
 
         line = ''
         for m in metrices:
             line += f"<th>{m}</th>"
-        lines += [line]
+        projectLines += [line]
 
-        lines += ['</tr>']
-        lines += ['</table>']
-        lines += ['</div><br />']
+        projectLines += ['</tr>']
+        projectLines += ['</table>']
+        projectLines += ['</div><br />']
 
-    lines = list(map(makePretty, lines))
+        if branch is not None:
+            branch = urllib.parse.quote(branch, safe='')
+            projectLines = list(
+                map(lambda x: addBranch(branch, x), projectLines))
+
+        lines.extend(projectLines)
+
+    lines = list(map(makeHumanHeaders, lines))
 
     template = getEmailTemplate()
     return insertDataInTemplate(template, ''.join(lines))
@@ -39,7 +55,6 @@ def createHtmlCode(data, sonarcloud_url):
 
 def makeHumanHeaders(line):
     line = line.replace(">coverage<", ">Test Coverage<")
-    line = line.replace(">complexity<", ">Complexity<")
     line = line.replace(">complexity<", ">Complexity<")
     line = line.replace(">bugs<", ">Bugs<")
     line = line.replace(">code_smells<", ">Code Smells<")
@@ -54,9 +69,8 @@ def makeHumanHeaders(line):
     return line
 
 
-def makePretty(line):
-    line = makeHumanHeaders(line)
-    return line
+def addBranch(branch, line):
+    return line.replace("?id=", f"?branch={branch}&id=")
 
 
 def getEmailTemplate():
@@ -68,6 +82,7 @@ def getEmailTemplate():
 
 def insertDataInTemplate(template, data):
     return template.replace("</body>", f'{data}</body>')
+
 
 def getProjects(rawString):
     l = rawString.split(',')
