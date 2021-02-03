@@ -16,8 +16,9 @@ To use this script you need to provide some environment variables either in `dot
 sonarcloud_url="https://sonarcloud.io/"
 sonarcloud_token="YOUR TOKEN"
 sonarcloud_organization="ORGANIZATION_NAME"
-sonarcloud_projects="Comma separated project names"
+sonarcloud_projects="Comma separated project names eg (projectKey, projectKey:branch)"
 LOGICAPP_URL="Logic app post url"
+metric_keys="code_smells,bugs,vulnerabilities,ncloc,complexity,violations,security_hotspots,sqale_index,coverage,duplicated_lines_density"
 ```
 
 ### setting in pipeline
@@ -30,9 +31,10 @@ steps:
   env:
     sonarcloud_url: https://sonarcloud.io/
     sonarcloud_organization: ORGANIZATION_NAME
-    sonarcloud_projects: Comma separated project names
+    sonarcloud_projects: Comma separated project names eg (projectKey, projectKey:branch)
     sonarcloud_token: $(sonarcloud_token)
     LOGICAPP_URL: "Logic app post url"
+    metric_keys: "code_smells,bugs,vulnerabilities,ncloc,complexity,violations,security_hotspots,sqale_index,coverage,duplicated_lines_density"
 ```
 
 ## Linking with Azure Logic App
