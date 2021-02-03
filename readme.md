@@ -10,7 +10,7 @@ Execute `run.bash`
 
 To use this script you need to provide some environment variables either in `dotenv` file or set variables in environment
 
-### .dotenv file sample
+## .dotenv file sample
 
 ```dotenv
 sonarcloud_url="https://sonarcloud.io/"
@@ -21,7 +21,7 @@ LOGICAPP_URL="Logic app post url"
 metric_keys="code_smells,bugs,vulnerabilities,ncloc,complexity,violations,security_hotspots,sqale_index,coverage,duplicated_lines_density"
 ```
 
-### setting in pipeline
+## setting in pipeline
 
 **Azure pipelines**
 ``` yaml
